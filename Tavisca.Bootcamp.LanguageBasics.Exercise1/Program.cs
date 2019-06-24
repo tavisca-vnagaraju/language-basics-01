@@ -22,12 +22,18 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
 
         public static int FindDigit(string equation)
         {
-            string A = string.Empty;
-            string B = string.Empty;
-            string C = string.Empty;
+            string first_operand = string.Empty;
+            string second_operand = string.Empty;
+            string right_operand = string.Empty;
             int firstCount = 0;
             int secondCount = 0;
-            var result = 0;
+            int int_first_operand =0;
+            int int_second_operand =0;
+            int int_right_operand =0;
+            var result = string.Empty;
+            var ans = 0;
+            var int_result =0;
+            
             for (int i = 0; i < equation.Length; i++){
                 if(equation[i] == '*'){
                     firstCount = i;
@@ -35,36 +41,41 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
                     secondCount =i;
                 }
             }
-            A = equation.Substring(0,firstCount);
+            first_operand = equation.Substring(0,firstCount);
             int length = secondCount - firstCount;
-            B = equation.Substring(firstCount+1,length-1);
+            second_operand = equation.Substring(firstCount+1,length-1);
             length = equation.Length - secondCount;
-            C = equation.Substring(secondCount+1,length-1);
-            
-            if(A.Contains("?")){
-                result = Int32.Parse(C) / Int32.Parse(B);
-                if(A.Length == result.ToString().Length){
-                    int i = A.IndexOf("?");
-                    var ans = result.ToString()[i].ToString();
-                    return Int32.Parse(ans);
+            right_operand = equation.Substring(secondCount+1,length-1);
+
+            int.TryParse(first_operand,out int_first_operand);
+            int.TryParse(second_operand,out int_second_operand);
+            int.TryParse(right_operand,out int_right_operand);
+
+            if(first_operand.Contains("?")){
+                result = ( int_right_operand / int_second_operand ) .ToString();
+                if(first_operand.Length == result.Length){
+                    int i = first_operand.IndexOf("?");
+                    int.TryParse(result[i].ToString(),out ans);
+                    return ans;
                 }else{
                     return -1;
                 }
-            }else if(B.Contains("?")){
-                result = Int32.Parse(C) / Int32.Parse(A);
-                if(B.Length == result.ToString().Length && result * Int32.Parse(A) == Int32.Parse(C)){
-                    int i = B.IndexOf("?");
-                    var ans = result.ToString()[i].ToString();
-                    return Int32.Parse(ans);
+            }else if(second_operand.Contains("?")){
+                int_result = (int_right_operand / int_first_operand );
+                result = int_result.ToString();
+                if(second_operand.Length == result.Length && int_result * int_first_operand == int_right_operand){
+                    int i = second_operand.IndexOf("?");
+                    int.TryParse(result[i].ToString(),out ans);
+                    return ans;
                 }else{
                     return -1;
                 }
-            }else if(C.Contains("?")){
-                result = Int32.Parse(A) * Int32.Parse(B);
-                if(C.Length == result.ToString().Length ){
-                    int i = C.IndexOf("?");
-                    var ans = result.ToString()[i].ToString();
-                    return Int32.Parse(ans);
+            }else if(right_operand.Contains("?")){
+                result = (int_first_operand * int_second_operand ).ToString();
+                if(right_operand.Length == result.Length ){
+                    int i = right_operand.IndexOf("?");
+                    int.TryParse(result[i].ToString(),out ans);
+                    return ans;
                 }
             }
             return -1;
